@@ -1,4 +1,5 @@
 import java.awt.Font;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -25,8 +26,10 @@ public class Boggle extends JFrame{
         etiqueta.setHorizontalAlignment(SwingConstants.CENTER);
         etiqueta.setFont(new Font ("arial",Font.BOLD,20)); // Estilo de la letra
 
-        JLabel imagen = new JLabel (new ImageIcon("uach.png"));
-        imagen.setBounds(40, 80, 400, 400);
+        ImageIcon imagen1 = new ImageIcon("uach.png");
+        JLabel imagen = new JLabel ();
+        imagen.setBounds(40, 70, 320, 400);
+        imagen.setIcon(new ImageIcon(imagen1.getImage().getScaledInstance(imagen.getWidth(), imagen.getHeight(), Image.SCALE_SMOOTH))); // Reescalado de imagen
         panel.add(imagen);
     }
     public static void main(String[] args) {
