@@ -1,19 +1,22 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 public class Boggle extends JFrame{
     private static final long serialVersionUID = 1L;
     
     // Variables de portada
     public JPanel panel;
-
+    private JButton boton1;
     public static void main(String[] args) {
         Boggle Ventana = new Boggle();
         Ventana.setVisible(true);
@@ -32,6 +35,7 @@ public class Boggle extends JFrame{
         EtiquetasP();
         IconsP();
         BotonesP();
+        RadioBoton();
     }
     private void PanelesP(){
         panel = new JPanel(); // Creacion del panel
@@ -51,7 +55,7 @@ public class Boggle extends JFrame{
         descrip.setFont(new Font ("arial",Font.BOLD,18));
         panel.add(descrip);
 
-        JLabel descrip1 = new JLabel("¿Lograras susperar el reto Jhon Cena?");
+        JLabel descrip1 = new JLabel("¿Lograras susperar el reto John Cena?");
         descrip1.setBounds(400, 120, 350, 40);
         descrip1.setHorizontalAlignment(SwingConstants.CENTER);
         descrip1.setFont(new Font ("arial",Font.BOLD,18));
@@ -77,13 +81,28 @@ public class Boggle extends JFrame{
         panel.add(imagen);
     }
     private void BotonesP(){
-        JButton boton1 = new JButton();
+        boton1 = new JButton();
         boton1.setText("START");
-        boton1.setEnabled(true); // Boton habilitado
-        boton1.setBounds(520, 320, 100, 40);
+        boton1.setEnabled(false); // Boton habilitado
+        boton1.setBounds(540, 400, 100, 40);
         boton1.setForeground(Color.GREEN);
         boton1.setFont(new Font("arial",Font.BOLD,18));
         panel.add(boton1);
     }
-    
+    private void RadioBoton(){
+        JRadioButton politica = new JRadioButton("Acepto las consecuencias del reto JOHN CENA!");
+        politica.setBounds(400, 360, 400, 20);
+        panel.add(politica);
+        ActionListener accion = new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(politica.isSelected()==true){
+                    boton1.setEnabled(true);
+                }else{
+                    boton1.setEnabled(false);
+                }
+            }
+        };
+        politica.addActionListener(accion);
+    }
 }
