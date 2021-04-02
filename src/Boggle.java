@@ -36,6 +36,7 @@ public class Boggle extends JFrame{
         IconsP();
         BotonesP();
         RadioBoton();
+        Gif();
     }
     private void PanelesP(){
         panel = new JPanel(); // Creacion del panel
@@ -50,32 +51,32 @@ public class Boggle extends JFrame{
         panel.add(etiqueta);
 
         JLabel descrip = new JLabel("Bienvenido al juego Boggle!!");
-        descrip.setBounds(430, 100, 300, 40);
+        descrip.setBounds(430, 50, 300, 40);
         descrip.setHorizontalAlignment(SwingConstants.CENTER);
         descrip.setFont(new Font ("arial",Font.BOLD,18));
         panel.add(descrip);
 
         JLabel descrip1 = new JLabel("¿Lograras susperar el reto John Cena?");
-        descrip1.setBounds(400, 120, 350, 40);
+        descrip1.setBounds(400, 80, 350, 40);
         descrip1.setHorizontalAlignment(SwingConstants.CENTER);
         descrip1.setFont(new Font ("arial",Font.BOLD,18));
         panel.add(descrip1);
 
         JLabel jess = new JLabel("Jessica Yamile Salcido Cadena - 329575");
-        jess.setBounds(400, 180, 350, 40);
+        jess.setBounds(400, 260, 350, 40);
         jess.setHorizontalAlignment(SwingConstants.CENTER);
-        jess.setFont(new Font ("arial",Font.BOLD,18));
+        jess.setFont(new Font ("arial",Font.BOLD,16));
         panel.add(jess);
 
         JLabel alex = new JLabel("David Alejandro Perez Rico - 320753");
-        alex.setBounds(400, 200, 350, 40);
+        alex.setBounds(400, 280, 350, 40);
         alex.setHorizontalAlignment(SwingConstants.CENTER);
-        alex.setFont(new Font ("arial",Font.BOLD,18));
+        alex.setFont(new Font ("arial",Font.BOLD,16));
         panel.add(alex);
     }
     private void IconsP(){
-        ImageIcon imagen1 = new ImageIcon("uach.png");
-        JLabel imagen = new JLabel ();
+        ImageIcon imagen1 = new ImageIcon("archivos\\uach.png");
+        JLabel imagen = new JLabel();
         imagen.setBounds(40, 50, 320, 400);
         imagen.setIcon(new ImageIcon(imagen1.getImage().getScaledInstance(imagen.getWidth(), imagen.getHeight(), Image.SCALE_SMOOTH))); // Reescalado de imagen
         panel.add(imagen);
@@ -93,16 +94,24 @@ public class Boggle extends JFrame{
         JRadioButton politica = new JRadioButton("Acepto las consecuencias del reto JOHN CENA!");
         politica.setBounds(400, 360, 400, 20);
         panel.add(politica);
-        ActionListener accion = new ActionListener(){
+        // Accion del boton y vadilacion si esta seleccionado
+        ActionListener accion = new ActionListener(){ 
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Habilitar o deshabiliatr el boton "Start"
                 if(politica.isSelected()==true){
-                    boton1.setEnabled(true);
+                    boton1.setEnabled(true); 
                 }else{
                     boton1.setEnabled(false);
                 }
             }
         };
         politica.addActionListener(accion);
+    }
+    private void Gif(){
+        ImageIcon gif = new ImageIcon("archivos\\john1.gif");
+        JLabel gif1 = new JLabel(gif);
+        gif1.setBounds(400, 120, 350, 140);
+        panel.add(gif1);
     }
 }
