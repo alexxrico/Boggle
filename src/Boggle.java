@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 public class Boggle extends JFrame implements ActionListener{
     private static final long serialVersionUID = 1L;
@@ -19,8 +20,12 @@ public class Boggle extends JFrame implements ActionListener{
     private JLabel etiqueta, descrip, descrip1, jess, alex, imagen, gif1;
     private JButton boton1;
     private JRadioButton politica;
+
     // Variables del inicio
     public JPanel inicio;
+    private JLabel gif2;
+    private JTextField usuario;
+    private JButton comenzar, agregar;
     public static void main(String[] args) {
         Boggle Ventana = new Boggle();
         Ventana.setVisible(true);
@@ -32,9 +37,9 @@ public class Boggle extends JFrame implements ActionListener{
         setLocationRelativeTo(null); // Pantalla en el centro
         Portada();
     }
+
     // Diseño de la ventda de la portada
     private void Portada(){
-        
         PanelesP();
         EtiquetasP();
         IconsP();
@@ -82,7 +87,8 @@ public class Boggle extends JFrame implements ActionListener{
         ImageIcon imagen1 = new ImageIcon("archivos\\uach.png");
         imagen = new JLabel();
         imagen.setBounds(70, 50, 250, 340);
-        imagen.setIcon(new ImageIcon(imagen1.getImage().getScaledInstance(imagen.getWidth(), imagen.getHeight(), Image.SCALE_SMOOTH))); // Reescalado de imagen
+        // Reescalado de imagen
+        imagen.setIcon(new ImageIcon(imagen1.getImage().getScaledInstance(imagen.getWidth(), imagen.getHeight(), Image.SCALE_SMOOTH))); 
         portada.add(imagen);
     }
     private void BotonesP(){
@@ -109,21 +115,49 @@ public class Boggle extends JFrame implements ActionListener{
         gif1.setBounds(350, 120, 400, 200);
         portada.add(gif1);
     }
-    private void VaciarVentana(){
-        etiqueta.setVisible(false);
-        descrip.setVisible(false);
-        descrip1.setVisible(false);
-        jess.setVisible(false);
-        alex.setVisible(false);
-        imagen.setVisible(false);
-        gif1.setVisible(false);
-        politica.setVisible(false);
-        boton1.setVisible(false);
 
-        portada.setVisible(false);
-    }
+    // Funciones de la pantalla de iniciar juego
     private void Inicio(){
-        
+        inicio = new JPanel();
+        inicio.setLayout(null);
+        this.getContentPane().add(inicio);
+        CajaTexto();
+        EtiquetasIn();
+        BotonesIN();
+        GifIN();
+    }
+    private void EtiquetasIn(){
+        inicio.add(etiqueta);
+
+        JLabel instruc = new JLabel("Ingresa un  nommbre de usuario:");
+        instruc.setBounds(250, 50, 300, 40);
+        instruc.setHorizontalAlignment(SwingConstants.LEFT);
+        instruc.setFont(new Font ("arial",Font.BOLD,16));
+        inicio.add(instruc);
+    }
+    private void CajaTexto(){
+        usuario = new JTextField("Anonimo");
+        usuario.setBounds(250, 100, 100, 25);
+        inicio.add(usuario);
+    }
+    private void BotonesIN(){
+        agregar = new JButton("Agregar");
+        agregar.setBounds(370, 98, 100, 30);
+        agregar.setEnabled(true);
+        inicio.add(agregar);
+        agregar.addActionListener(this);
+
+        comenzar = new JButton("Comenzar");
+        comenzar.setBounds(300, 130, 100, 30);
+        comenzar.setEnabled(false);
+        comenzar.setForeground(Color.GREEN);
+        inicio.add(comenzar);
+    }
+    private void GifIN(){
+        ImageIcon gif = new ImageIcon("archivos\\john2.gif");
+        gif2 = new JLabel(gif);
+        gif2.setBounds(200, 170, 350, 300);
+        inicio.add(gif2);
     }
 
     @Override
@@ -139,8 +173,13 @@ public class Boggle extends JFrame implements ActionListener{
         }
         // Evento si se selecciona el boton de "Satrt"
         else if(evento == boton1){
-            VaciarVentana();
+            // Quitamos la portada y mandamos a llamar el panel de inicio
+            portada.setVisible(false);
             Inicio();
+        }
+        // Agregar usuario
+        else if(evento == agregar){
+            comenzar.setEnabled(true);
         }
     }
 }
