@@ -3,6 +3,9 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+//import java.io.FileWriter;
+//import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,6 +18,14 @@ import javax.swing.SwingConstants;
 public class Boggle extends JFrame implements ActionListener{
     private static final long serialVersionUID = 1L;
     
+    // Variables del programa
+    String[] consonantes = {"B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T",
+                            "V", "W", "X", "Y", "Z"};
+    String[] vocales = {"A", "E", "I", "O", "U"};
+    static int tam = 26;
+    static Trie raiz;
+    public File archivo;
+
     // Variables de portada
     public JPanel portada;
     private JLabel etiqueta, descrip, descrip1, jess, alex, imagen, gif1;
@@ -30,6 +41,17 @@ public class Boggle extends JFrame implements ActionListener{
         Boggle Ventana = new Boggle();
         Ventana.setVisible(true);
     }
+    // Clase del Trie
+    static class Trie{
+        Trie[] hijos = new Trie[tam];
+        boolean fin;
+        Trie(){
+            fin=false;
+            for(int i=0; i<tam; i++){
+                hijos[i]=null;
+            }
+        }
+    };
     public Boggle(){
         setSize(800,500); // Tamaño de la ventana
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Terminar ejecucion al cerrar ventana
@@ -115,7 +137,41 @@ public class Boggle extends JFrame implements ActionListener{
         gif1.setBounds(350, 120, 400, 200);
         portada.add(gif1);
     }
-
+    // Recoger informacion del archivo
+    private void Insertar(String llave){
+        int nivel, index;
+        int largo = llave.length();
+        Trie nodoAux = raiz;
+        for(nivel=0; nivel<largo; nivel++){
+            index = llave.charAt(nivel)-'a';
+            if(nodoAux.hijos[index] == null){
+                nodoAux.hijos[index] = new Trie();
+            }
+            nodoAux = nodoAux.hijos[index];
+        }
+        nodoAux.fin = true;
+    }
+    private boolean Buscar(String llave){
+        int nivel, index;
+        int largo = llave.length();
+        Trie nodoAux = raiz;
+        for(nivel=0; nivel<largo; nivel++){
+            index = llave.charAt(nivel)-'a';
+            if(nodoAux.hijos[index] == null){
+                return false;
+            }
+            nodoAux = nodoAux.hijos[index];
+        }
+        return (nodoAux != null && nodoAux.fin);
+    }
+    private int Indice(String llave){
+        int length = llave.length();
+        int indice = 0;
+        for(int i=0; i<length; i++){
+            indice += llave.charAt(i);
+        }
+        return indice;
+    }
     // Funciones de la pantalla de iniciar juego
     private void Inicio(){
         inicio = new JPanel();
@@ -159,7 +215,13 @@ public class Boggle extends JFrame implements ActionListener{
         gif2.setBounds(200, 170, 350, 300);
         inicio.add(gif2);
     }
-
+    /*
+    private void Fichero() throws IOException{
+        FileWriter fw = new FileWriter("archivos\\puntuacion.txt",true);
+        fw.write(usuario.getText());
+        fw.close();
+    }
+    */
     @Override
     public void actionPerformed(ActionEvent e) {
         Object evento = e.getSource();
@@ -179,7 +241,8 @@ public class Boggle extends JFrame implements ActionListener{
         }
         // Agregar usuario
         else if(evento == agregar){
-            comenzar.setEnabled(true);
+            //comenzar.setEnabled(true);
+            //Fichero();
         }
     }
 }
