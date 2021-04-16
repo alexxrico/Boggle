@@ -4,8 +4,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-//import java.io.FileWriter;
-//import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,7 +24,7 @@ public class Boggle extends JFrame implements ActionListener{
     String[] vocales = {"A", "E", "I", "O", "U"};
     static int tam = 26;
     static Trie raiz;
-    public File archivo;
+    String nombre;
 
     // Variables de portada
     public JPanel portada;
@@ -37,6 +37,10 @@ public class Boggle extends JFrame implements ActionListener{
     private JLabel gif2;
     private JTextField usuario;
     private JButton comenzar, agregar;
+
+    // Variables del juego
+    public JPanel juego;
+    private JLabel bienvenida;
     public static void main(String[] args) {
         Boggle Ventana = new Boggle();
         Ventana.setVisible(true);
@@ -208,12 +212,45 @@ public class Boggle extends JFrame implements ActionListener{
         comenzar.setEnabled(false);
         comenzar.setForeground(Color.GREEN);
         inicio.add(comenzar);
+        comenzar.addActionListener(this);
     }
     private void GifIN(){
         ImageIcon gif = new ImageIcon("archivos\\john2.gif");
         gif2 = new JLabel(gif);
         gif2.setBounds(200, 170, 350, 300);
         inicio.add(gif2);
+    }
+    private void Juego(){
+        juego = new JPanel();
+        juego.setLayout(null);
+        this.getContentPane().add(juego);
+        Tablero();
+        EtiquetasJ();
+    }
+    private void Tablero(){
+        raiz = new Trie();
+        try{
+            File archivo = new File("archivos\\diccionario20202.txt");
+            Scanner leer = new Scanner(archivo);
+            while(leer.hasNextLine()){
+                String data = leer.nextLine();
+                Insertar(data);
+            }
+            leer.close();
+
+        }catch(FileNotFoundException ex){
+            System.out.println("ERROR");
+            ex.printStackTrace();
+        }
+    }
+    private void EtiquetasJ(){
+        juego.add(etiqueta);
+
+        bienvenida = new JLabel("Bienvenido '"+nombre+"'");
+        bienvenida.setBounds(250, 40, 300, 40);
+        bienvenida.setHorizontalAlignment(SwingConstants.CENTER);
+        bienvenida.setFont(new Font ("arial",Font.BOLD,16));
+        juego.add(bienvenida);
     }
     /*
     private void Fichero() throws IOException{
@@ -241,8 +278,12 @@ public class Boggle extends JFrame implements ActionListener{
         }
         // Agregar usuario
         else if(evento == agregar){
-            //comenzar.setEnabled(true);
-            //Fichero();
+            comenzar.setEnabled(true);
+            nombre=usuario.getText();
+        }
+        else if(evento == comenzar){
+            inicio.setVisible(false);
+            Juego();
         }
     }
 }
